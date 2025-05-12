@@ -1,7 +1,12 @@
 const ws = new WebSocket("wss://clouddata.scratch.mit.edu");
 
 ws.onopen = () => {
-  const username = prompt("Input Your Username");
+  const username = document.querySelector('.profile-name').textContent;
+  
+  if (username == null) {
+    throw new Error("You Must Login");
+  }
+  
   const project_id = prompt("Input Project ID");
 
   ws.send(JSON.stringify({
