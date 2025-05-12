@@ -4,14 +4,14 @@ ws.onopen = () => {
   const username = document.querySelector('.profile-name').textContent;
   
   const project_id = prompt("Input Project ID (If nothing is entered, it will automatically be the current Project Id.)");
-  if (typeof project_id !== 'number' || isNaN(project_id)) {
-    throw new Error("Input Project Id (Number Only)");
-  };
-
   if (project_id == null) {
     const url = window.location.href;
     const projectId = url.match(/projects\/(\d+)/)?.[1];
     project_id = projectId
+  };
+  
+  if (typeof project_id !== 'number' || isNaN(project_id)) {
+    throw new Error("Input Project Id (Number Only)");
   };
 
   ws.send(JSON.stringify({
@@ -23,16 +23,16 @@ ws.onopen = () => {
   const cloud_var = prompt("Input Cloud Var Name (If nothing is entered, it will automatically be 'My Cloud Var')");
   const cloud_value = prompt("Input Cloud Value (If nothing is entered, it will automatically be '0')");
   
-  if (typeof cloud_value !== 'number' || isNaN(cloud_value)) {
-    throw new Error("Input Cloud Value (Number Only)");
-  };
-
   if (cloud_value == null) {
     cloud_value = "0";
   };
 
   if (cloud_var == null) {
     cloud_var = "My Cloud Var";
+  };
+
+  if (typeof cloud_value !== 'number' || isNaN(cloud_value)) {
+    throw new Error("Input Cloud Value (Number Only)");
   };
 
   console.log("Start");
