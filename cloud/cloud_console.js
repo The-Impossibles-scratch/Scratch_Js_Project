@@ -1,1 +1,32 @@
+const ws = new WebSocket("wss://clouddate.scratch.mit");
 
+ws.onopen = () => {
+  const username = prompt("Input Your Username");
+  const project_id = prompt("Input Project ID");
+
+  ws.send(JSON.stringify({
+    "method":"handshake",
+    "user":username,
+    "project_id":project_id
+  }) + "\n");
+
+  const cloud_var = prompt("Input Cloud Var Name");
+  const cloud_value = prompt("Input Cloud Value");
+
+  console.log("Start");
+  
+  ws.send(JSON.stringify({
+    "method":"set",
+    "user":username,
+    "project_id":project_id,
+    "name":"☁" + cloud_var,
+    "value":cloud_value
+  }) + "\n");
+
+  console.log("FINISH");
+  ws.onclose()
+}
+
+ws.onclose = () => {
+  console.log("Closed")
+}
