@@ -17,6 +17,10 @@ ws.onopen = () => {
 
   const cloud_var = prompt("Input Cloud Var Name");
   const cloud_value = prompt("Input Cloud Value");
+  
+  if (typeof cloud_value !== 'number' || isNaN(cloud_value)) {
+    throw new Error("Input Project Id (Number Only)");
+  }
 
   console.log("Start");
   
