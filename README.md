@@ -1,2 +1,1 @@
-# memo_scratch
-MEMO :)
+# Scratch Js Project
