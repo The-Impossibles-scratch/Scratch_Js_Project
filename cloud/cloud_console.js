@@ -3,7 +3,7 @@ const ws = new WebSocket("wss://clouddata.scratch.mit.edu");
 ws.onopen = () => {
   const username = document.querySelector('.profile-name').textContent;
   
-  const project_id = prompt("Input Project ID (If nothing is entered, it will automatically be the current Project Id.)");
+  let project_id = prompt("Input Project ID (If nothing is entered, it will automatically be the current Project Id.)");
   if (!project_id) {
     const url = window.location.href;
     const projectId = url.match(/projects\/(\d+)/)?.[1];
@@ -20,8 +20,8 @@ ws.onopen = () => {
     "project_id":project_id
   }) + "\n");
 
-  const cloud_var = prompt("Input Cloud Var Name (If nothing is entered, it will automatically be 'My Cloud Var')");
-  const cloud_value = prompt("Input Cloud Value (If nothing is entered, it will automatically be '0')");
+  let cloud_var = prompt("Input Cloud Var Name (If nothing is entered, it will automatically be 'My Cloud Var')");
+  let cloud_value = prompt("Input Cloud Value (If nothing is entered, it will automatically be '0')");
   
   if (!cloud_value) {
     cloud_value = "0";
