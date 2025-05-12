@@ -1,4 +1,4 @@
-const ws = new Websoket("wss://clouddate.scratch.mit.edu");
+const ws = new WebSoket("wss://clouddate.scratch.mit.edu");
 ws.onopen = () => {
   ws.send(JSONstringify({"method":"handshake","user":"The_Impossibles-sys","project_id":""}) + "\n");
   console.log("start");
