@@ -6,7 +6,8 @@ I need to make Scratch Api v1.0.0 but I don't have the motivation so I'm stoppin
 Look : [Change Logs + Version](https://github.com/The-Impossibles-scratch/memo_scratch/tree/main/version)
 
 ## What is this?
-Just Memo :)
+Scratch JavaScript Projects  
+Just a Memo :)
 
 ## Can I use this code?
 Sure. But You have to write credit like this :
