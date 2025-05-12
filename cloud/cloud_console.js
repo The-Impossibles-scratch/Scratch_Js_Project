@@ -1,4 +1,4 @@
-const ws = new WebSocket("wss://clouddate.scratch.mit");
+const ws = new WebSocket("wss://clouddata.scratch.mit");
 
 ws.onopen = () => {
   const username = prompt("Input Your Username");
