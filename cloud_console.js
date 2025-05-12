@@ -8,6 +8,3 @@ ws.onopen = () => {
 ws.onclose = () => {
   console.log("close cloud date")
 }
-  
-
-  
