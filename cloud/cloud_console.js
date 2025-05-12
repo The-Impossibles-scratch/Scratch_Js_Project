@@ -7,7 +7,7 @@ ws.onopen = () => {
   if (!project_id) {
     const url = window.location.href;
     const projectId = url.match(/projects\/(\d+)/)?.[1];
-    project_id = projectId
+    project_id = Number(projectId)
   };
   
   if (typeof project_id !== 'number' || isNaN(project_id)) {
@@ -24,7 +24,9 @@ ws.onopen = () => {
   let cloud_value = prompt("Input Cloud Value (If nothing is entered, it will automatically be '0')");
   
   if (!cloud_value) {
-    cloud_value = "0";
+    cloud_value = 0;
+  } else{
+    cloud_value = Number(cloud_value);
   };
 
   if (!cloud_var) {
