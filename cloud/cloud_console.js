@@ -24,7 +24,7 @@ ws.onopen = () => {
   }) + "\n");
 
   console.log("FINISH");
-  ws.onclose()
+  ws.close()
 }
 
 ws.onclose = () => {
