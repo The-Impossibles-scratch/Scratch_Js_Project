@@ -9,12 +9,12 @@ Date Changed : 05/13/25 JST
 + Created v 0.0.1 (But I didnt write anything code)
 ```
 
-## Studio
+## Project
 ```markdown
 + Created v 0.0.1 (But I didnt write anything code)
 ```
 
-## Project
+## Studio
 ```markdown
 + Created v 0.0.1 (But I didnt write anything code)
 ```
