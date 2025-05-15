@@ -39,7 +39,7 @@ async function login(username,password) {
 
   if (login.ok) {
     console.log("Succsessful to login");
-    const session_id = get_cookies("session_id");
+    const session_id = get_cookies("scratchsessionsid");
     console.log(session_id);
   } else {
     console.log("Filed to login");
