@@ -1,10 +1,7 @@
 const ws = new WebSocket("wss://clouddata.scratch.mit.edu");
 
 ws.onopen = () => {
-  const username = try {
-    document.querySelector('.profile-name').textContent;
-  } catch (error) {
-  };
+  const username = document.querySelector('.profile-name').textContent;
   
   let project_id = prompt("Input Project ID (If nothing is entered, it will automatically be the current Project Id.)");
   if (!project_id) {
