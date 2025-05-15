@@ -4,8 +4,6 @@ Cloud Date Js Change Logs
 # version v 1.0.0
 Date Changed : 05/12/25 JST
 
-# Set Cloud
-
 ## DevTools
 ```markdown
 + Created v 1.0.0
@@ -18,8 +16,6 @@ Date Changed : 05/12/25 JST
 
 # version v 1.1.0
 Date Changed : 05/12/25 JST
-
-# Set Cloud
 
 ## DevTools
 ```markdown
@@ -35,8 +31,6 @@ Date Changed : 05/12/25 JST
 
 # version v 1.2.0
 Date Changed : 05/15/25 JST
-
-# Set Cloud
 
 ## DevTools
 ```markdown
