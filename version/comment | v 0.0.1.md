@@ -4,7 +4,7 @@ Comment Js Change Logs
 # version v 0.0.1
 Date Changed : 05/13/25 JST
 
-# DevTool
+# DevTools
 
 ## User
 ```markdown
@@ -21,7 +21,7 @@ Date Changed : 05/13/25 JST
 + Created v 0.0.1 (But I didnt write anything code)
 ```
 
-# Book Mark
+# BookMark
 
 ## User
 ```markdown
