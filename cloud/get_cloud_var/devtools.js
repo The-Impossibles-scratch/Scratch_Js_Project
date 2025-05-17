@@ -9,6 +9,8 @@ async function get_cloud_var(project_id,limit,offset,filter_by_name) {
       console.log("There seems to be no Cloud Data activity on this project…");
       return [];
     };
+
+    console.log(cloud_logs)
     
     const filtered_cloud_logs = cloud_logs.filter(cloud => cloud.name == filter_by_name);
     
