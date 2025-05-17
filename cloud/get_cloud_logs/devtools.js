@@ -43,7 +43,7 @@ if (!limit) {
 limit = Number(limit);
 
 var offset = prompt("Input Offset (If nothing is enterd, it will automatically be 0).");
-if (offset) {
+if (!offset) {
   offset = 0;
 };
 offset = Number(offset);
