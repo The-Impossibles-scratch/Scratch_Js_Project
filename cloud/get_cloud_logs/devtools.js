@@ -15,7 +15,7 @@ async function get_cloud_logs(project_id,limit,offset) {
         `
 ----------------------------------------
 User: ${cloud.user}
-Data Name: ${cloud.dataname}
+Data Name: ${cloud.name}
 Action: ${cloud.verb}
 Data Value: ${cloud.value}
 Time: ${new Date(cloud.timestamp).toLocaleString()}
