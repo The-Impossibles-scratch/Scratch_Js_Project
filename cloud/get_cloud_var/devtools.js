@@ -2,8 +2,8 @@ async function get_cloud_var(project_id,limit,offset,filter_by_name) {
   const url = `https://clouddata.scratch.mit.edu/logs?projectid=${project_id}&limit=${limit}&offset=${offset}`;
   
   try {
-    const fetch_respons = fetch(url);
-    const cloud_logs = fetch_respons.json();
+    const fetch_respons = await fetch(url);
+    const cloud_logs = await fetch_respons.json();
     
     if (cloud_logs.length == 0) {
       console.log("There seems to be no Cloud Data activity on this project…");
@@ -58,7 +58,7 @@ if (!limit) {
 limit = Number(limit);
 
 var offset = prompt("Input Offset (If nothing is enterd, it will automatically be 0).");
-if (offset) {
+if (!offset) {
   offset = 0;
 };
 offset = Number(offset);
