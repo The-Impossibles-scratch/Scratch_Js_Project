@@ -36,9 +36,9 @@ if (!project_id) {
   project_id = Number(projectId);
 };
 
-var limit = prompt("Input Limit (If nothing is entered, it will automatically be 100.)");
+var limit = prompt("Input Limit (If nothing is entered, it will automatically be 1000.)");
 if (!limit) {
-  limit = 100
+  limit = 1000;
 };
 limit = Number(limit);
 
