@@ -1,8 +1,9 @@
 const ws = new WebSocket("wss://clouddata.scratch.mit.edu");
 
 ws.onopen = () => {
-  const username = try {
-    document.querySelector('.profile-name').textContent;
+  let username;
+  try {
+    username = document.querySelector('.profile-name').textContent;
   } catch (error) {
     throw new Error("You must be Log in")
   };
