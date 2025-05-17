@@ -19,13 +19,22 @@ async function comment(user,txt,parent_id,commentee_id) {
   
   let username;
   try {
-    username = document.querySelector('.profile-name').textContent;
+    const get_username = await fetch("https://scratch.mit.edu/session/", {
+      method: "GET",
+      headers: {
+        "X-CSRFToken": csrfToken,
+        "X-Requested-With": "XMLHttpRequest"
+      },
+      credentials: "include",
+    });
+    const username_json = await get_username.json();
+    username = username_json.user?.username;
   } catch (error) {
     console.log("You Must Be Log In");
     return;
   };
   
-  const fetch_respons = fetch(`https://scratch.mit.edu/site-api/comments/user/${user}/add/`, {
+  const fetch_respons = await fetch(`https://scratch.mit.edu/site-api/comments/user/${user}/add/`, {
     method: "POST",
     headers: {
       "X-CSRFToken": csrf_token,
