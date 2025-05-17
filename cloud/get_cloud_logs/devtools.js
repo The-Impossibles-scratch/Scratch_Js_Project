@@ -1,4 +1,4 @@
-async function get_cloud_logs(project_id,limit=100,offset=0) {
+async function get_cloud_logs(project_id,limit,offset) {
   const url = `https://clouddata.scratch.mit.edu/logs?projectid=${project_id}&limit=${limit}&offset=${offset}`;
   
   try {
@@ -36,14 +36,16 @@ if (!project_id) {
   project_id = Number(projectId);
 };
 
-var limit = prompt("Input Limit (If nothing is entered, it will automatically be 0.)");
-if (limit) {
-  limit = Number(limit);
+var limit = prompt("Input Limit (If nothing is entered, it will automatically be 100.)");
+if (!limit) {
+  limit = 100
 };
+limit = Number(limit);
 
 var offset = prompt("Input Offset (If nothing is enterd, it will automatically be 0).");
 if (offset) {
-  offset = Number(offset);
+  offset = 0;
 };
+offset = Number(offset);
 
 get_cloud_logs(project_id,limit,offset);
