@@ -1,5 +1,5 @@
 async function get_cloud_logs(project_id,limit=100,offset=0) {
-  const url = "https://clouddata.scratch.mit.edu/logs?projectid=${project_id}&limit=${limit}&offset=${offset}";
+  const url = `https://clouddata.scratch.mit.edu/logs?projectid=${project_id}&limit=${limit}&offset=${offset}`;
   
   try {
     const fetch_respons = await fetch(url);
@@ -21,8 +21,8 @@ async function get_cloud_logs(project_id,limit=100,offset=0) {
         Time: ${new Date(cloud.timestamp).toLocaleString()}
         ----------------------------------------
         `;
-      return output;
     };
+     return output;
   } catch (error) {
     console.log("Fetch Error : ",error);
     return [];
