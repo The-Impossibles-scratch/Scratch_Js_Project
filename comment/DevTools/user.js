@@ -7,8 +7,8 @@ async function comment(user,txt,parent_id,commentee_id) {
       if (key == "scratchcsrftoken") {
         return val
       };
-      return null;
     };
+    return null;
   };
   
   csrf_token = get_csrf_token()
