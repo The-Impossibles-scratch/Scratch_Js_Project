@@ -56,7 +56,10 @@ async function comment(user, txt, parent_id, commentee_id) {
   });
   if (fetch_response.status == 200) {
     console.log("status : Succsess");
+    return;
   } else {
     console.log("status : Failed");
+    return;
   };
 };
+
