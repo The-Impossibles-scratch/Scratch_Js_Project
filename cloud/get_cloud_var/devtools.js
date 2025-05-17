@@ -51,9 +51,9 @@ if (!filter_by_name) {
   throw new Error("Please Input Cloud Var");
 };
 
-var limit = prompt("Input Limit (If nothing is entered, it will automatically be 100.)");
+var limit = prompt("Input Limit (If nothing is entered, it will automatically be 1000.)");
 if (!limit) {
-  limit = 100
+  limit = 1000;
 };
 limit = Number(limit);
 
