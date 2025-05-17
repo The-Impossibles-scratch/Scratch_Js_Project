@@ -1,40 +1,44 @@
-async function comment(user,txt,parent_id,commentee_id) {
+async function comment(user, txt, parent_id, commentee_id) {
   function get_csrf_token() {
     const cookies_str = document.cookie;
     const cookies = cookies_str.split("; ").map(c => c.split("="));
     
-    for (const [key,val] of cookies) {
+    for (const [key, val] of cookies) {
       if (key == "scratchcsrftoken") {
-        return val
-      };
-    };
+        return val;
+      }
+    }
     return null;
-  };
+  }
   
-  csrf_token = get_csrf_token()
+  const csrf_token = get_csrf_token();
   if (!csrf_token) {
     console.log("csrf_token not found");
     return;
-  };
+  }
   
   let username;
   try {
     const get_username = await fetch("https://scratch.mit.edu/session/", {
       method: "GET",
       headers: {
-        "X-CSRFToken": csrfToken,
+        "X-CSRFToken": csrf_token,
         "X-Requested-With": "XMLHttpRequest"
       },
       credentials: "include",
     });
     const username_json = await get_username.json();
     username = username_json.user?.username;
+    if (!username) {
+      console.log("You must be logged in.");
+      return;
+    };
   } catch (error) {
-    console.log("You Must Be Log In");
+    console.log("You must be logged in.");
     return;
   };
   
-  const fetch_respons = await fetch(`https://scratch.mit.edu/site-api/comments/user/${user}/add/`, {
+  const fetch_response = await fetch(`https://scratch.mit.edu/site-api/comments/user/${user}/add/`, {
     method: "POST",
     headers: {
       "X-CSRFToken": csrf_token,
@@ -47,8 +51,8 @@ async function comment(user,txt,parent_id,commentee_id) {
     body: JSON.stringify({
       content: txt,
       parent_id: parent_id,
-      comentee_id: comentee_id
+      commentee_id: commentee_id
     })
   });
-  console.log("status : ", fetch_respons.status);
+  console.log("status:", fetch_response.status);
 };
