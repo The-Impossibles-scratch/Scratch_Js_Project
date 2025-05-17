@@ -21,6 +21,7 @@ async function get_cloud_logs(project_id,limit=100,offset=0) {
         Time: ${new Date(cloud.timestamp).toLocaleString()}
         ----------------------------------------
         `;
+      console.log(output)
     };
      return output;
   } catch (error) {
