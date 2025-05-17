@@ -25,7 +25,7 @@ async function get_cloud_var(project_id,limit,offset,filter_by_name) {
     `
 ----------------------------------------
 User: ${latest_cloud_log.user}
-Data Name: ${latest_cloud_log.data}
+Data Name: ${latest_cloud_log.name}
 Action: ${latest_cloud_log.verb}
 Data Value: ${latest_cloud_log.value}
 Time: ${new Date(latest_cloud_log.timestamp).toLocaleString()}
