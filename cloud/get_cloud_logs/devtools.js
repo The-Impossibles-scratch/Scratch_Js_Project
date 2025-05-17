@@ -29,20 +29,20 @@ Time: ${new Date(cloud.timestamp).toLocaleString()}
   };
 };
 
-let project_id = prompt("Input Project ID (If nothing is entered, it will automatically be the current Project Id.)");
+var project_id = prompt("Input Project ID (If nothing is entered, it will automatically be the current Project Id.)");
 if (!project_id) {
   const url = window.location.href;
   const projectId = url.match(/projects\/(\d+)/)?.[1];
   project_id = Number(projectId);
 };
 
-let limit = prompt("Input Limit (If nothing is entered, it will automatically be 0.)");
+var limit = prompt("Input Limit (If nothing is entered, it will automatically be 0.)");
 if (!limit) {
   limit = 100;
 };
 limit = Number(limit);
 
-let offset = prompt("Input Offset (If nothing is enterd, it will automatically be 0).");
+var offset = prompt("Input Offset (If nothing is enterd, it will automatically be 0).");
 if (!offset) {
   offset = 0;
 };
