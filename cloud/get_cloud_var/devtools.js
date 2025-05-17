@@ -47,7 +47,7 @@ if (!project_id) {
 };
 
 var filter_by_name = prompt("Input Cloud Var");
-if (!filer_by_name) {
+if (!filter_by_name) {
   throw new Error("Please Input Cloud Var");
 };
 
