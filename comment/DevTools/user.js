@@ -64,7 +64,7 @@ async function comment(user, txt, parent_id, commentee_id) {
   }
 }
 
-async function get_parent_id(username) {
+async function get_commentee_id(username) {
   try {
     const user_data_response = await fetch(`https://api.scratch.mit.edu/users/${username}/`);
     const user_data_json = await user_data_response.json();
@@ -92,14 +92,14 @@ async function get_parent_id(username) {
   if (!replay) {
     await comment(username, txt, "", "");
   } else if (replay === "Y") {
-    const parent_id = await get_parent_id(username);
-    const commentee_id_str = prompt("Input Commentee ID");
+    const commentee_id = await get_commentee_id(username);
+    const parent_id_str = prompt("Input Commentee ID");
 
-    if (!commentee_id_str) {
-      throw new Error("You must input a Commentee ID.");
+    if (!parent_id_str) {
+      throw new Error("You must input a Parent ID.");
     };
 
-    const commentee_id = Number(commentee_id_str)
+    const parent_id = Number(parent_id_str)
     
     await comment(username, txt, parent_id, commentee_id);
   } else {
