@@ -99,7 +99,7 @@ async function get_parent_id(username) {
       throw new Error("You must input a Commentee ID.");
     };
 
-    const commentee_id = Number(commenteed_id_str)
+    const commentee_id = Number(commentee_id_str)
     
     await comment(username, txt, parent_id, commentee_id);
   } else {
