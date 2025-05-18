@@ -63,3 +63,40 @@ async function comment(user, txt, parent_id, commentee_id) {
   };
 };
 
+async function get_parent_id(username) {
+  try {
+    const user_data_respons = await fetch(`https://api.scratch.mit.edu/users/${username}/`);
+    const user_data_json = await user_data_respons.json();
+
+    return user_data_json.id;
+  } catch (error) {
+    console.log("Fetch Error : ",error);
+    return;
+  };
+};
+
+var username = prompt("Input User Name (If nothing is entered, it will automatically be the current Username.)");
+if (!username) {
+  const url = window.location.herf;
+  username = url.match(/users\/([^\/]+)\//)?.[1];
+};
+
+var txt = prompt(`Input Comment Content (If nothing is enterd, it will automatically be "Hello ${username}!" )`);
+if (!txt) {
+  txt = `Hello ${username}!`;
+};
+
+var replay = prompt("If you want to replay to a comment, Input 'Y' (If nothing is enterd, Your comment will not be replied.)");
+if (!repaly) {
+  comment(username,txt,"","");
+} else if (replay == "Y") {
+  var parent_id = get_parent_id(username);
+  var commentee_id = prompt("Input Commentee Id");
+  if (!commentee_id) {
+    throw new Error("Input Commentee Id");
+  };
+  comment(username,txt,parent_id,commentee_id);
+} else {
+    throw new Error("Input Y or Nothing");
+  };
+};
