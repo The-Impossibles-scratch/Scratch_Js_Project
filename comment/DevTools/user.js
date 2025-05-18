@@ -82,9 +82,9 @@ async function get_parent_id(username) {
     username = url.match(/users\/([^\/]+)\//)?.[1];
   }
 
-  let txt = prompt(`Input Comment Content (If nothing is entered, it will automatically be "Hello ${username}!")`);
+  let txt = prompt(`Input Comment Content (If nothing is entered, it will automatically be "Hello @${username}!")`);
   if (!txt) {
-    txt = `Hello ${username}!`;
+    txt = `Hello @${username}!`;
   }
 
   const replay = prompt("If you want to reply to a comment, input 'Y' (If nothing is entered, your comment will not be a reply.)");
