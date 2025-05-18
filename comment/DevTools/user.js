@@ -93,10 +93,14 @@ async function get_parent_id(username) {
     await comment(username, txt, "", "");
   } else if (replay === "Y") {
     const parent_id = await get_parent_id(username);
-    const commentee_id = prompt("Input Commentee ID");
-    if (!commentee_id) {
+    const commentee_id_str = prompt("Input Commentee ID");
+
+    if (!commentee_id_str) {
       throw new Error("You must input a Commentee ID.");
-    }
+    };
+
+    const commentee_id = Number(commenteed_id_str)
+    
     await comment(username, txt, parent_id, commentee_id);
   } else {
     throw new Error("Please input 'Y' or leave it blank.");
