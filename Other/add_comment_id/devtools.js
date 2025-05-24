@@ -8,7 +8,8 @@
   function add_comment_id_users(li) {
     if (!li.classList.contains('top-level-reply') && !li.classList.contains('reply') && !li.classList.contains('last')) return;
 
-    var comment_div = document.querySelector('div.comment');
+    // li内のdiv.commentを探す
+    var comment_div = li.querySelector('div.comment');
     if (!comment_div) return;
 
     var comment_time_span = comment_div.querySelector('span.time');
@@ -28,7 +29,7 @@
   }
 
   function add_comment_id_projects_studios(div) {
-    if (div.classList.contains('flex-row') || div.classList.contains('comment')) return;
+    if (!div.classList.contains('flex-row') || !div.classList.contains('comment')) return;
 
     var comment_time_span = div.querySelector('span.comment-time > span');
 
