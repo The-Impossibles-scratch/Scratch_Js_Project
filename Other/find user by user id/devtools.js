@@ -64,10 +64,6 @@
           commentee_id: commentee_id
         })
       });
-      let html = await fetch_res.text()
-      let return_val = html.split('">@')[1]
-      return_val = return_val.split("</a>")[0]
-      return return_val;
     } catch (e) {
       throw new Error("ERROR : " + e.message);
     };
