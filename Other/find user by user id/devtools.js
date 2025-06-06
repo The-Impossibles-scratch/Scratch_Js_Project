@@ -1,40 +1,77 @@
 (function () {
-  async function get_username(csrf_token) {
-    if (!csrf_token) {
-      throw new Error("csrf token is not found!");
-      return;
-    }
-    const fetch_username = try {
-      await fetch("https://scratch.mit.edu/session/", {
-        method: "GET",
-        headers: {
-          "X-CSRFToken": csrf_token,
-          "X-Requested-With": "XMLHttpRequest"
-        },
-        credentials: "include"
-      });
-    } catch (error) {
-      throw new Error("you must be log in!");
-      return;
-    }
-    return fetch_username.user?.username;
-  }
+  const headers = {
+    "X-CSRFToken": null,
+    "X-Requested-With": "XMLHttpRequest",
+    "Content-Type": "application/json",
+    "User-Agent": navigator.userAgent,
+    "Referer": "https://scratch.mit.edu/"
+  };
   
   function get_csrf_token() {
-    const cookies = document.cookie.split('; ').map(c => c.split('='));
-    for (const [key, val] of cookies) {
-      if (key === "scratchcsrftoken") return val;
+    const cookies = document.cookie.split(' ;').map(c => c.split('='));
+    for ([key, val] of cookies) {
+      if (key === "scratchcsrftoken") return val
     }
     return null;
   }
 
-  async function post(user_id) {
-    const P_respons = await fetch("")
-  }
+  async function get_username(csrf_token, headers) {
+    let return_val;
+    if (!csrf_token) {
+      throw new Error("CSRF Token Is Not Found");
+    };
+    let headers_copy = {...headers, "X-CSRFToken":csrf_token};
+    try {
+      const fetch_res = await fetch('https://scratch.mit.edu/session', {
+        method: "POST",
+        headers: headers_copy,
+        credentials: "include"
+      })
+      return_val = await fetch_res.json().user?.username
+      if (!return_val) {
+        throw new Error("you must be log in");
+      };
+      return return_val;
+    } catch (e) {
+      throw new Error("ERROR : " + e.message);
+    };
+  };
 
-  function del(comment_id) {
-  }
+  async function del_comment(username, comment_id, headers, csrf_token) {
+    let headers_copy = {...headers, "X-CSRFToken":csrf_token};
+    try {
+      const fetch_res = await fetch(`https://scratch.mit.edu/site-api/comments/user/${username}/del/`, {
+        method: "POST",
+        headers: headers_copy,
+        credentials: "include",
+        body: JSON.stringify({id: String(comment_id)})
+      });
+    } catch (e) {
+      throw new Error("ERROR : " + e.message);
+    };
+  };
 
-  function get_username_by_id(user_id) {
-  }
-})();  
+  async function post_comment(username, commentee_id, headers, csrf_token) {
+    let headers_copy = {...headers, "X-CSRFToken":csrf_token};
+    try {
+      const fetch_res = await fetch(`https://scratch.mit.edu/site-api/comments/user/${username}/add/`, {
+        method: "POST",
+        headers: headers_copy,
+        credentials: "include",
+        body: JSON.stringify({
+          content: "From Scratch Js Project",
+          parent_id: "",
+          commentee_id: commentee_id
+        })
+      });
+      let html = await fetch_res.text()
+      let return_val = html.split('">@')[1]
+      return_val = return_val.split("</a>")[0]
+      return return_val;
+    } catch (e) {
+      throw new Error("ERROR : " + e.message);
+    };
+  };
+    
+  
+      
