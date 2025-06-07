@@ -80,6 +80,4 @@
       throw new Error("ERROR : " + e.message);
     };
   };
-    
-  
-      
+})(); 
