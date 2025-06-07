@@ -74,7 +74,7 @@
         })
       });
       
-      let html = fetch_res.text()
+      let html = await fetch_res.text()
       
     } catch (e) {
       throw new Error("ERROR : " + e.message);
