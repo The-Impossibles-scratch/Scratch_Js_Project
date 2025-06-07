@@ -59,7 +59,7 @@
     };
   };
 
-  async function post_comment(username, headers, csrf_token) {
+  async function post_comment(username, commentee_id, headers, csrf_token) {
     let headers_copy = {...headers, "X-CSRFToken":csrf_token};
     
     try {
@@ -70,7 +70,7 @@
         body: JSON.stringify({
           content: "From Scratch Js Project",
           parent_id: "",
-          commentee_id: ""
+          commentee_id: commentee_id
         })
       });
       
