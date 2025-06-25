@@ -1,1 +1,115 @@
-javascript:!function(){const e=window.fetch,t=XMLHttpRequest.prototype.open,n=XMLHttpRequest.prototype.send,o=XMLHttpRequest.prototype.setRequestHeader,a=[],r=(e,t,n,o,a,r,s,c)=>{a.push({type:e,method:t,url:n,requestBody:o,requestHeaders:a,status:r,responseHeaders:s,responseBody:c,timestamp:(new Date).toISOString()})},s=e=>{const t={};return e&&"function"==typeof e.forEach?e.forEach(((e,n)=>{t[n]=e})):e&&"object"==typeof e&&Object.keys(e).forEach((n=>{t[n]=e[n]})),t};window.fetch=async(...n)=>{const o=n[0],a=n[1]||{};if("string"==typeof o&&o.includes("api.scratch.mit.edu")){const c=(a.method||"GET").toUpperCase(),i=a.body||null,l=s(a.headers),p=await e(...n),u=p.clone(),f=await u.text(),d=s(u.headers);return r("fetch",c,o,i,l,p.status,d,f),p}return e(...n)},XMLHttpRequest.prototype.open=function(e,t,...n){return this._isScratchAPI="string"==typeof t&&t.includes("api.scratch.mit.edu"),this._url=t,this._method=e,this._requestHeaders={},o.call(this,e,t,...n)},XMLHttpRequest.prototype.setRequestHeader=function(e,t){return this._requestHeaders||(this._requestHeaders={}),this._requestHeaders[e]=t,o.call(this,e,t)},XMLHttpRequest.prototype.send=function(e){return this._body=e,this._isScratchAPI&&this.addEventListener("load",(()=>{const t=this.getAllResponseHeaders().split("\r\n").filter((e=>e.trim())).reduce(((e,t)=>{const[n,o]=t.split(": ");return e[n.toLowerCase()]=o,e}),{});r("xhr",this._method,this._url,this._body,this._requestHeaders,this.status,t,this.responseText)})),n.call(this,e)};const c=document.createElement("button");c.textContent="📥 Scratch API ログ保存",Object.assign(c.style,{position:"fixed",bottom:"20px",right:"20px",zIndex:9999,fontSize:"16px",padding:"10px",background:"#28a745",color:"#fff",border:"none",borderRadius:"6px"}),c.onclick=()=>{const e=new Blob([JSON.stringify(a,null,2)],{type:"application/json"}),t=URL.createObjectURL(e),n=document.createElement("a");n.href=t,n.download="scratch-api-log-"+(new Date).toISOString().replace(/[:.]/g,"-")+".json",document.body.appendChild(n),n.click(),document.body.removeChild(n),URL.revokeObjectURL(t)};document.body.appendChild(c),alert("✅ Scratch API Logger が有効になりました！\n📥 保存ボタンが右下に出ています")}();
+javascript:(function(){
+  if(!window.__scratchLoggerStep){
+    // 1回目実行: 通信監視コード注入＆自動リロード
+    window.__scratchLoggerStep=1;
+    localStorage.setItem("__scratchLoggerActive","1");
+    alert("✅ Scratch Logger開始：通信監視コード注入してページをリロードします");
+    location.reload();
+    return;
+  }
+  if(localStorage.getItem("__scratchLoggerActive")!=="1") return alert("Scratch Loggerは開始されていません。");
+  localStorage.removeItem("__scratchLoggerActive");
+  window.__scratchLoggerStep=2;
+
+  const logs = [];
+  const origFetch = window.fetch;
+  const origXHROpen = XMLHttpRequest.prototype.open;
+  const origXHRSend = XMLHttpRequest.prototype.send;
+  const origXHRSetHeader = XMLHttpRequest.prototype.setRequestHeader;
+
+  function headersToObj(headers) {
+    const obj = {};
+    if(headers && typeof headers.forEach === "function"){
+      headers.forEach((v,k)=>obj[k]=v);
+    } else if(headers && typeof headers === "object"){
+      Object.keys(headers).forEach(k=>obj[k]=headers[k]);
+    }
+    return obj;
+  }
+  function log(type, method, url, reqBody, reqHeaders, status, resHeaders, resBody){
+    logs.push({
+      type, method, url, requestBody: reqBody, requestHeaders: reqHeaders,
+      status, responseHeaders: resHeaders, responseBody: resBody,
+      timestamp: new Date().toISOString()
+    });
+    console.log("[ScratchAPI Log]", method, url, status);
+  }
+
+  window.fetch = async function(...args){
+    const url = args[0];
+    const opts = args[1] || {};
+    if(typeof url === "string" && url.includes("api.scratch.mit.edu")){
+      const method = (opts.method||"GET").toUpperCase();
+      const body = opts.body || null;
+      const reqHeaders = headersToObj(opts.headers);
+      const response = await origFetch(...args);
+      const clone = response.clone();
+      const resText = await clone.text();
+      const resHeaders = headersToObj(clone.headers);
+      log("fetch", method, url, body, reqHeaders, response.status, resHeaders, resText);
+      return response;
+    }
+    return origFetch(...args);
+  };
+
+  XMLHttpRequest.prototype.open = function(method, url, ...rest){
+    this._isScratchAPI = typeof url === "string" && url.includes("api.scratch.mit.edu");
+    this._method = method;
+    this._url = url;
+    this._reqHeaders = {};
+    return origXHROpen.call(this, method, url, ...rest);
+  };
+  XMLHttpRequest.prototype.setRequestHeader = function(key, val){
+    this._reqHeaders = this._reqHeaders || {};
+    this._reqHeaders[key] = val;
+    return origXHRSetHeader.call(this, key, val);
+  };
+  XMLHttpRequest.prototype.send = function(body){
+    this._body = body;
+    if(this._isScratchAPI){
+      this.addEventListener("load", () => {
+        const rawHeaders = this.getAllResponseHeaders();
+        const resHeaders = rawHeaders.split("\r\n").filter(l => l.trim()).reduce((acc,line)=>{
+          const [k,v] = line.split(": ");
+          acc[k.toLowerCase()] = v;
+          return acc;
+        },{});
+        log("xhr", this._method, this._url, this._body, this._reqHeaders, this.status, resHeaders, this.responseText);
+      });
+    }
+    return origXHRSend.call(this, body);
+  };
+
+  // 保存ボタン
+  if(document.getElementById("__scratchLoggerSaveBtn")) return alert("Loggerは既に起動しています。");
+  const btn = document.createElement("button");
+  btn.id = "__scratchLoggerSaveBtn";
+  btn.textContent = "📥 Scratch API ログ保存";
+  Object.assign(btn.style,{
+    position: "fixed",
+    bottom: "20px",
+    right: "20px",
+    padding: "10px 15px",
+    backgroundColor: "#28a745",
+    color: "white",
+    fontSize: "16px",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+    zIndex: 999999
+  });
+  btn.onclick = () => {
+    if(logs.length === 0) return alert("まだ通信ログがありません。");
+    const blob = new Blob([JSON.stringify(logs,null,2)], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `scratch-api-log-${new Date().toISOString().replace(/[:.]/g,"-")}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+  document.body.appendChild(btn);
+  alert("✅ Scratch API Logger 起動しました。\n通信を記録中。ログは右下のボタンから保存できます。");
+})();
